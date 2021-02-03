@@ -6,6 +6,7 @@ import numpy
 # Задаем переменные
 width = height = 3
 train_photos = list()
+epoch_for_notification = 100
 
 # Получаем текущую директорию
 path = os.path.dirname(os.path.abspath(__file__)) + "\\"
@@ -33,8 +34,8 @@ class NN:
         epoch_n = 0
         for epoch in range(self.epochs):
 
-            # Каждые 50 эпох выводим текущую эпоху
-            if epoch_n == 50:
+            # Каждые epoch_for_notification эпох выводим текущую эпоху
+            if epoch_n == epoch_for_notification:
                 print(epoch)
                 epoch_n = 0
 
@@ -117,7 +118,7 @@ class NN:
             if 0 < final_output[1] < 0.5:
                 print("На картинке есть вертикальная линия")
             elif 0.5 < final_output[1] < 1:
-                print("На картинке есть вертикальная и горизонтальная линия")
+                print("На картинке есть вертикальная и горизонтальная линии")
 
 
 inputnodes = 9
