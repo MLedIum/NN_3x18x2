@@ -13,6 +13,7 @@ path = os.path.dirname(os.path.abspath(__file__)) + "\\"
 # И директорию с тренировочными фото
 trainphotos_dir = path + "trainphotos\\"
 
+# Получаем тренировочные файлы
 for photo in os.listdir(trainphotos_dir):
     train_photos.append(trainphotos_dir + photo)
 
@@ -25,9 +26,11 @@ class NN:
         self.lr = learningrate
         self.epochs = epochs
 
+        # Задаем случайные значения весов 
         self.wf = numpy.random.rand(hiddennodes, inputnodes)
         self.ws = numpy.random.rand(outputnodes, hiddennodes)
 
+        # Функция активации
         self.activation_function = lambda x: 1 / (1 + numpy.exp(-x))
 
     def train(self):
@@ -38,7 +41,8 @@ class NN:
             if epoch_n == epoch_for_notification:
                 print(epoch)
                 epoch_n = 0
-
+            
+            # Проходимся по тренировочным фото
             for photo in os.listdir(trainphotos_dir):
 
                 # Загружаем фотографию
@@ -52,6 +56,7 @@ class NN:
                         color = (pix[x, y][0] + pix[x, y][1] + pix[x, y][2]) / 256
                         colors.append(color)
 
+                # Убираем лишние символы из названия файла
                 photo_name = photo.split(".png")[0]
 
                 # Создаем матрицу из входных значений
@@ -85,6 +90,7 @@ class NN:
                     numpy.transpose(input_array),
                 )
 
+            # Показываем переход в следующую эпоху
             epoch_n += 1
 
     def query(self):
@@ -120,16 +126,19 @@ class NN:
             elif 0.5 < final_output[1] < 1:
                 print("На картинке есть вертикальная и горизонтальная линии")
 
+# Указываем некоторые значения
+inputnodes = 9 # кол-во входных нейронов
+hiddennodes = 18 # кол-во скрытых нейронов
+outputnodes = 2 # кол-во выходных нейронов
+learningrate = 0.3  # коэф. обучения
+epochs = 1000 # кол-во эпох обучения
 
-inputnodes = 9
-hiddennodes = 18
-outputnodes = 2
-learningrate = 0.3
-epochs = 1000
-
+# Создаем нейронную сеть
 network = NN(inputnodes, hiddennodes, outputnodes, learningrate, epochs)
+# Запускаем функцию тренировки
 network.train()
 
+# Бесконечный цикл 
 while True:
     input("Нажмите Enter для сканирования photo.png")
     network.query()
