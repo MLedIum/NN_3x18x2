@@ -8,7 +8,7 @@ width = height = 3
 train_photos = list()
 
 # Получаем текущую директорию
-path = os.getcwd() + "\\"
+path = os.path.dirname(os.path.abspath(__file__)) + "\\"
 # И директорию с тренировочными фото
 trainphotos_dir = path + "trainphotos\\"
 
